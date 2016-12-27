@@ -10,25 +10,24 @@ TestGame:
     GameWorld:
         id: gameworld
         gamescreenmanager: gamescreenmanager
-        size_of_gameworld: 100*1024
-        size_of_entity_block: 128
+        size_of_gameworld: 150*1024
         system_count: 2
-        zones: {'general': 10000}
+        zones: {'general': 150000}
+
         PositionSystem2D:
             system_id: 'position'
             gameworld: gameworld
             zones: ['general']
             size_of_component_block: 128
+
         Renderer:
             gameworld: gameworld
             system_id: 'renderer'
             zones: ['general']
-            frame_count: 1
-            updateable: False
-            force_update: True
-            size_of_batches: 512
-            size_of_component_block: 128
+            frame_count: 6
+            force_update: False
             shader_source: 'assets/glsl/positionshader.glsl'
+
     GameScreenManager:
         id: gamescreenmanager
         size: root.size
@@ -41,18 +40,3 @@ TestGame:
 
 <MainScreen@GameScreen>:
     name: 'main'
-    FloatLayout:
-        DebugPanel:
-            size_hint: (.2, .1)
-            pos_hint: {'x': .225, 'y': .025}
-
-<DebugPanel>:
-    Label:
-        pos: root.pos
-        size: root.size
-        font_size: root.size[1]*.5
-        halign: 'center'
-        valign: 'middle'
-        color: (1,1,1,1)
-        text: 'FPS: ' + root.fps if root.fps != None else 'FPS:'
-
