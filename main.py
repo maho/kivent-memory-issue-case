@@ -12,6 +12,7 @@ from kivy.logger import Logger
 from kivent_core.managers.resource_managers import texture_manager
 
 texture_manager.load_atlas('assets/onetwo.atlas')
+#texture_manager.load_atlas('assets/singleatlas.atlas')
 
 class TestGame(Widget):
     def __init__(self, **kwargs):
