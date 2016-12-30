@@ -7,6 +7,7 @@ TEMPJSON=/tmp/$$PPID.json
 #export VERSION_kivy=master
 export URL_kivy=https://github.com/mahomahomaho/kivy/archive/grabmouse2.zip
 export URL_kivent_core=https://github.com/mahomahomaho/kivent/archive/my22dev.zip
+export P4A_kivent_core_DIR=$(CURDIR)/kivent
 
 
 #all: build ssh_deploy ssh_run ssh_log

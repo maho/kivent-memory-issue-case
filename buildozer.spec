@@ -22,12 +22,12 @@ source.include_exts = py,png,jpg,kv,atlas,mo,json,wav,glsl,ttf
 source.exclude_exts = spec
 
 # (list) List of directory to exclude (let empty to not exclude anything)
-source.exclude_dirs = tests, bin, .binpackages, bigfiles, buildozer, p4a, img
+source.exclude_dirs = tests, bin, .binpackages, bigfiles, buildozer, p4a, img, kivent
 
 # (list) List of exclusions using pattern matching
 #source.exclude_patterns = license,images/*/*.jpg
 
-version=0.0.1
+version=0.0.2
 
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy
