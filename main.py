@@ -1,6 +1,13 @@
 """ memory testcase """
 
+import logging
 from random import randint
+import sys
+
+formatter = logging.Formatter("[%(asctime)s.%(msecs)03d][%(levelname)s][%(message)s]", "%H:%M:%S")
+console = logging.StreamHandler() 
+console.setFormatter(formatter)
+sys._kivy_logging_handler = console
 
 from kivy.app import App
 from kivy.uix.widget import Widget
@@ -10,12 +17,18 @@ from kivy.logger import Logger
 
 from kivent_core.managers.resource_managers import texture_manager
 
-texture_manager.load_atlas('assets/atlas.atlas')
-#texture_manager.load_atlas('assets/singleatlas.atlas')
+if 1:
+    texture_manager.load_atlas('assets/atlas.atlas')
+else:
+    texture_manager.load_atlas('assets/singleatlas.atlas')
+
+NUMINROW=17
+RECTSIZE=int(800/NUMINROW)
 
 class TestGame(Widget):
     def __init__(self, **kwargs):
         self.entities = []
+        self.i = 0
         super(TestGame, self).__init__(**kwargs)
         self.gameworld.init_gameworld(
             ['renderer', 'position'],
@@ -27,17 +40,18 @@ class TestGame(Widget):
         self.draw_some_stuff()
 
     def draw_some_stuff(self):
-        for x in range(5):
-            for y in range(5):
+        for x in range(NUMINROW):
+            for y in range(NUMINROW):
                 create_component_dict = {
-                    'position': (100+x*100, 100+y*100),
+                    'position': (RECTSIZE/2 + x*RECTSIZE, RECTSIZE/2 + y*RECTSIZE),
                     }
                 components_list = ['position', 'renderer']
 
                 create_component_dict['renderer'] = {
-                    'size': (100, 100),
+                    'size': (RECTSIZE, RECTSIZE),
                     'render': True,
-                    'texture': "texture-%s"%((x+y)%7)
+                    'texture': "texture-%s"%((x+y)%7),
+                    'copy': True
                 }
                 Logger.debug("create_component_dict=%r", create_component_dict)
                 self.entities.append(self.gameworld.init_entity(create_component_dict, components_list))
@@ -45,8 +59,12 @@ class TestGame(Widget):
         Clock.schedule_interval(self.change_texture, 0.1)
 
     def change_texture(self, dt):
+        self.i += 1
         for i, x in enumerate(self.entities):
-            new_texture = "texture-%s"%randint(0,6)
+            #new_texture = "texture-%s"%((i + self.i)%7)
+            #new_texture = "texture-%s"%((i + self.i)%7)
+            new_texture = "texture-%s"%((self.i)%7)
+
             self.gameworld.entities[x].renderer.texture_key = new_texture
 
 
