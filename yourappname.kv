@@ -13,6 +13,7 @@ TestGame:
         size_of_gameworld: 150*1024
         system_count: 2
         zones: {'general': 150000}
+        update_time: 0.6
 
         PositionSystem2D:
             system_id: 'position'
@@ -24,7 +25,8 @@ TestGame:
             gameworld: gameworld
             system_id: 'renderer'
             zones: ['general']
-            frame_count: 6
+            #frame_count: 6
+            updateable: True
             shader_source: 'assets/glsl/positionshader.glsl'
 
     GameScreenManager:

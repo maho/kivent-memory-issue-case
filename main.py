@@ -22,7 +22,7 @@ if 1:
 else:
     texture_manager.load_atlas('assets/singleatlas.atlas')
 
-NUMINROW=17
+NUMINROW=1
 RECTSIZE=int(800/NUMINROW)
 
 class TestGame(Widget):
