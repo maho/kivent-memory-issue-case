@@ -4,7 +4,9 @@ import logging
 from random import randint
 import sys
 
-formatter = logging.Formatter("[%(asctime)s.%(msecs)03d][%(levelname)s][%(message)s]", "%H:%M:%S")
+from ilh import IndentFormatter, logging_indent
+
+formatter = IndentFormatter("%(asctime)s.%(msecs)03d - %(levelname)6s - %(message)s", "%H:%M:%S")
 console = logging.StreamHandler() 
 console.setFormatter(formatter)
 sys._kivy_logging_handler = console
@@ -24,6 +26,16 @@ else:
 
 NUMINROW=1
 RECTSIZE=int(800/NUMINROW)
+
+def rr(l):
+    tl = []
+    while True:
+        if not tl:
+            tl = l[:]
+        yield tl.pop(0)
+
+truefalse = rr([False, True])
+
 
 class TestGame(Widget):
     def __init__(self, **kwargs):
@@ -56,16 +68,19 @@ class TestGame(Widget):
                 Logger.debug("create_component_dict=%r", create_component_dict)
                 self.entities.append(self.gameworld.init_entity(create_component_dict, components_list))
 
-        Clock.schedule_interval(self.change_texture, 0.1)
+        Clock.schedule_interval(self.change_texture, 3)
 
     def change_texture(self, dt):
-        self.i += 1
-        for i, x in enumerate(self.entities):
-            #new_texture = "texture-%s"%((i + self.i)%7)
-            #new_texture = "texture-%s"%((i + self.i)%7)
-            new_texture = "texture-%s"%((self.i)%7)
+        with logging_indent('change_texture()'):
+            if truefalse.next():
+                logging.debug("skip")
+            self.i += 1
+            for i, x in enumerate(self.entities):
+                #new_texture = "texture-%s"%((i + self.i)%7)
+                #new_texture = "texture-%s"%((i + self.i)%7)
+                new_texture = "texture-%s"%((self.i)%7)
 
-            self.gameworld.entities[x].renderer.texture_key = new_texture
+                self.gameworld.entities[x].renderer.texture_key = new_texture
 
 
     def setup_states(self):
