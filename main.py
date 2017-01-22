@@ -1,15 +1,10 @@
 """ memory testcase """
 
 import logging
-from random import randint
 import sys
 
-from ilh import IndentFormatter, logging_indent
+from ilh import IndentFormatter, loggdesc_with
 
-formatter = IndentFormatter("%(asctime)s.%(msecs)03d - %(levelname)6s - %(message)s", "%H:%M:%S")
-console = logging.StreamHandler() 
-console.setFormatter(formatter)
-sys._kivy_logging_handler = console
 
 from kivy.app import App
 from kivy.uix.widget import Widget
@@ -18,6 +13,18 @@ from kivy.core.window import Window
 from kivy.logger import Logger
 
 from kivent_core.managers.resource_managers import texture_manager
+
+formatter = IndentFormatter("%(asctime)s.%(msecs)03d - %(levelname)6s - %(message)s", "%H:%M:%S")
+
+logger = logging.getLogger()
+
+
+for x in logger.handlers:
+    x.setFormatter(formatter)
+
+logging.debug("he")
+
+
 
 if 1:
     texture_manager.load_atlas('assets/atlas.atlas')
@@ -71,9 +78,9 @@ class TestGame(Widget):
         Clock.schedule_interval(self.change_texture, 3)
 
     def change_texture(self, dt):
-        with logging_indent('change_texture()'):
+        with loggdesc_with('change_texture()'):
             if truefalse.next():
-                logging.debug("skip")
+                return
             self.i += 1
             for i, x in enumerate(self.entities):
                 #new_texture = "texture-%s"%((i + self.i)%7)
