@@ -16,7 +16,7 @@ if 1:
 else:
     texture_manager.load_atlas('assets/singleatlas.atlas')
 
-NUMINROW=10
+NUMINROW=1
 RECTSIZE=int(800/NUMINROW)
 
 def rr(l):
@@ -57,7 +57,6 @@ class TestGame(Widget):
                     'texture': "texture-%s"%((x+y)%7),
                     'copy': True
                 }
-                Logger.debug("create_component_dict=%r", create_component_dict)
                 self.entities.append(self.gameworld.init_entity(create_component_dict, components_list))
 
         Clock.schedule_interval(self.change_texture, 1)
@@ -72,6 +71,7 @@ class TestGame(Widget):
             new_texture = "texture-%s"%((self.i)%7)
 
             self.gameworld.entities[x].renderer.texture_key = new_texture
+            Logger.debug("new texture - %s", new_texture)
 
 
     def setup_states(self):
