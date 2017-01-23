@@ -3,9 +3,6 @@
 import logging
 import sys
 
-from ilh import IndentFormatter, loggdesc_with
-
-
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
@@ -14,24 +11,12 @@ from kivy.logger import Logger
 
 from kivent_core.managers.resource_managers import texture_manager
 
-formatter = IndentFormatter("%(asctime)s.%(msecs)03d - %(levelname)6s - %(message)s", "%H:%M:%S")
-
-logger = logging.getLogger()
-
-
-for x in logger.handlers:
-    x.setFormatter(formatter)
-
-logging.debug("he")
-
-
-
 if 1:
     texture_manager.load_atlas('assets/atlas.atlas')
 else:
     texture_manager.load_atlas('assets/singleatlas.atlas')
 
-NUMINROW=1
+NUMINROW=10
 RECTSIZE=int(800/NUMINROW)
 
 def rr(l):
@@ -75,19 +60,18 @@ class TestGame(Widget):
                 Logger.debug("create_component_dict=%r", create_component_dict)
                 self.entities.append(self.gameworld.init_entity(create_component_dict, components_list))
 
-        Clock.schedule_interval(self.change_texture, 3)
+        Clock.schedule_interval(self.change_texture, 1)
 
     def change_texture(self, dt):
-        with loggdesc_with('change_texture()'):
-            if truefalse.next():
-                return
-            self.i += 1
-            for i, x in enumerate(self.entities):
-                #new_texture = "texture-%s"%((i + self.i)%7)
-                #new_texture = "texture-%s"%((i + self.i)%7)
-                new_texture = "texture-%s"%((self.i)%7)
+        if truefalse.next():
+            return
+        self.i += 1
+        for i, x in enumerate(self.entities):
+            #new_texture = "texture-%s"%((i + self.i)%7)
+            #new_texture = "texture-%s"%((i + self.i)%7)
+            new_texture = "texture-%s"%((self.i)%7)
 
-                self.gameworld.entities[x].renderer.texture_key = new_texture
+            self.gameworld.entities[x].renderer.texture_key = new_texture
 
 
     def setup_states(self):
