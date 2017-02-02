@@ -2,10 +2,8 @@ HOST=mahiabd
 ADB=/home/maho/.buildozer/android/platform/android-sdk-20/platform-tools/adb
 BUILDOZER=buildozer
 
-TEMPJSON=/tmp/$$PPID.json
-
 #export VERSION_kivy=master
-export URL_kivy=https://github.com/mahomahomaho/kivy/archive/grabmouse2.zip
+export URL_kivy=https://github.com/mahomahomaho/kivy/archive/master.zip
 export URL_kivent_core=https://github.com/mahomahomaho/kivent/archive/my22dev.zip
 export P4A_kivent_core_DIR=$(CURDIR)/./kivent
 
@@ -22,8 +20,11 @@ deepclean: localfullclean
 build: 
 	$(BUILDOZER) --verbose android_new debug 
 
+deploy: 
+	$(BUILDOZER) --verbose android_new deploy 
+
 run: 
-	$(BUILDOZER) --verbose android_new deploy run
+	$(BUILDOZER) --verbose android_new run
 
 log:
 	$(BUILDOZER) --verbose android_new logcat  | egrep --color 'python|maho|khamster|$$'

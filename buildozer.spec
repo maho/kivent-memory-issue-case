@@ -27,7 +27,7 @@ source.exclude_dirs = tests, bin, .binpackages, bigfiles, buildozer, p4a, img, k
 # (list) List of exclusions using pattern matching
 #source.exclude_patterns = license,images/*/*.jpg
 
-version=0.0.2
+version=0.0.3
 
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy
