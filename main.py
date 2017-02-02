@@ -1,8 +1,5 @@
 """ memory testcase """
 
-import logging
-import sys
-
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
@@ -16,8 +13,10 @@ if 1:
 else:
     texture_manager.load_atlas('assets/singleatlas.atlas')
 
-NUMINROW=1
+NUMINROW=10
 RECTSIZE=int(800/NUMINROW)
+#how many textures should should be simultaneously on screen
+NUMTEXTURES_USED = 7
 
 def rr(l):
     tl = []
@@ -59,16 +58,19 @@ class TestGame(Widget):
                 }
                 self.entities.append(self.gameworld.init_entity(create_component_dict, components_list))
 
-        Clock.schedule_interval(self.change_texture, 1)
+        Clock.schedule_interval(self.change_texture, 0.05)
 
     def change_texture(self, dt):
-        if truefalse.next():
-            return
+        #if truefalse.next():
+        #    return
         self.i += 1
+        textures_available = [x%7 for x in range(self.i%7, self.i%7+NUMTEXTURES_USED)]
+        numavail = len(textures_available)
+
         for i, x in enumerate(self.entities):
-            #new_texture = "texture-%s"%((i + self.i)%7)
-            #new_texture = "texture-%s"%((i + self.i)%7)
-            new_texture = "texture-%s"%((self.i)%7)
+            new_texture_num = textures_available[(i + self.i)%numavail]
+
+            new_texture = "texture-%s"%new_texture_num
 
             self.gameworld.entities[x].renderer.texture_key = new_texture
             Logger.debug("new texture - %s", new_texture)

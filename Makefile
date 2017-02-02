@@ -20,17 +20,18 @@ deepclean: localfullclean
 build: 
 	$(BUILDOZER) --verbose android_new debug 
 
+
 deploy: 
 	$(BUILDOZER) --verbose android_new deploy 
 
-run: 
-	$(BUILDOZER) --verbose android_new run
-
-log:
-	$(BUILDOZER) --verbose android_new logcat  | egrep --color 'python|maho|khamster|$$'
 
 buildrunlog: 
-	$(BUILDOZER) android_new debug deploy run logcat 
+	$(BUILDOZER) android_new debug deploy run logcat  | grep -v 'BluetoothAdapter'
+
+runlogmeasure: 
+	./runlogmeasure.sh
+
+
 
 dopip:
 	pip install --upgrade --user pip
