@@ -13,6 +13,9 @@ all: buildrunlog
 
 localfullclean: 
 	rm -rf .buildozer
+	
+clean_kivent:
+	$(BUILDOZER) --verbose android_new p4a -- clean_recipe_build kivent_core
 
 deepclean: localfullclean
 	rm -rf $(HOME)/.buildozer bin

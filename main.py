@@ -1,4 +1,7 @@
 """ memory testcase """
+import logging
+import sys
+
 
 from kivy.app import App
 from kivy.uix.widget import Widget
@@ -8,15 +11,22 @@ from kivy.logger import Logger
 
 from kivent_core.managers.resource_managers import texture_manager
 
-if 1:
+NUMINROW=15
+RECTSIZE=int(800/NUMINROW)
+#how many textures should should be simultaneously on screen
+NUMTEXTURES_USED = 6
+USE_SINGLEATLAS = False
+
+if len(sys.argv) >= 3:
+    NUMTEXTURES_USED = int(sys.argv[1])
+    USE_SINGLEATLAS = int(sys.argv[2])
+
+if not USE_SINGLEATLAS:
     texture_manager.load_atlas('assets/atlas.atlas')
 else:
     texture_manager.load_atlas('assets/singleatlas.atlas')
 
-NUMINROW=10
-RECTSIZE=int(800/NUMINROW)
-#how many textures should should be simultaneously on screen
-NUMTEXTURES_USED = 7
+
 
 def rr(l):
     tl = []
@@ -73,7 +83,6 @@ class TestGame(Widget):
             new_texture = "texture-%s"%new_texture_num
 
             self.gameworld.entities[x].renderer.texture_key = new_texture
-            Logger.debug("new texture - %s", new_texture)
 
 
     def setup_states(self):
@@ -95,4 +104,5 @@ def main():
     YourAppNameApp().run()
 
 if __name__ == '__main__':
+    Logger.setLevel(logging.DEBUG)
     main()
